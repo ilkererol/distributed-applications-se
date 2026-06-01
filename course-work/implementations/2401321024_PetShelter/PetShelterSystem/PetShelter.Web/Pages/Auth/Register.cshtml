@@ -1,0 +1,53 @@
+﻿@page
+@model PetShelter.Web.Pages.Auth.RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+    Layout = "_Layout";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h4 class="card-title text-center mb-4">
+                    <i class="bi bi-person-plus-fill text-primary"></i> Регистрация
+                </h4>
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Model.ErrorMessage</div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Model.SuccessMessage</div>
+                }
+
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label">Потребителско име</label>
+                        <input type="text" class="form-control" asp-for="Input.Username" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Имейл</label>
+                        <input type="email" class="form-control" asp-for="Input.Email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Парола</label>
+                        <input type="password" class="form-control" asp-for="Input.Password" required />
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-person-check"></i> Регистрирай се
+                    </button>
+                </form>
+
+                <hr />
+                <p class="text-center mb-0">
+                    Вече имаш акаунт?
+                    <a href="/Auth/Login">Влез</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

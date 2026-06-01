@@ -1,0 +1,121 @@
+﻿@page
+@model PetShelter.Web.Pages.Animals.IndexModel
+@{
+    ViewData["Title"] = "Животни";
+    ViewData["ActivePage"] = "Animals";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3><i class="bi bi-piggy-bank text-primary"></i> Животни</h3>
+    <a href="/Animals/Create" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Добави животно
+    </a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label">Вид</label>
+                <input type="text" class="form-control" name="species" value="@Model.Species" placeholder="напр. Куче" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Ваксиниран</label>
+                <select class="form-select" name="isVaccinated">
+                    <option value="">-- Всички --</option>
+                    <option value="true" selected="@(Model.IsVaccinated == true)">Да</option>
+                    <option value="false" selected="@(Model.IsVaccinated == false)">Не</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Сортирай по</label>
+                <select class="form-select" name="sortBy">
+                    <option value="">--</option>
+                    <option value="Name" selected="@(Model.SortBy == "Name")">Име</option>
+                    <option value="Species" selected="@(Model.SortBy == "Species")">Вид</option>
+                    <option value="Weight" selected="@(Model.SortBy == "Weight")">Тегло</option>
+                    <option value="ArrivalDate" selected="@(Model.SortBy == "ArrivalDate")">Дата пристигане</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Посока</label>
+                <select class="form-select" name="ascending">
+                    <option value="true" selected="@(Model.Ascending)">Възходящо</option>
+                    <option value="false" selected="@(!Model.Ascending)">Низходящо</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-search"></i> Търси
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (!Model.Animals.Any())
+{
+    <div class="alert alert-info">Няма намерени животни.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Име</th>
+                    <th>Вид</th>
+                    <th>Дата на раждане</th>
+                    <th>Тегло (кг)</th>
+                    <th>Ваксиниран</th>
+                    <th>Дата пристигане</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var animal in Model.Animals)
+                {
+                    <tr>
+                        <td>@(animal.Name ?? "—")</td>
+                        <td>@animal.Species</td>
+                        <td>@(animal.BirthDate?.ToString("dd.MM.yyyy") ?? "—")</td>
+                        <td>@animal.Weight</td>
+                        <td>
+                            @if (animal.IsVaccinated)
+                            {
+                                <span class="badge bg-success">Да</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Не</span>
+                            }
+                        </td>
+                        <td>@animal.ArrivalDate.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <a href="/Animals/Edit/@animal.Id" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="/Animals/Delete/@animal.Id" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <nav>
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.Page ? "active" : "")">
+                    <a class="page-link"
+                       href="?page=@i&species=@Model.Species&isVaccinated=@Model.IsVaccinated&sortBy=@Model.SortBy&ascending=@Model.Ascending">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

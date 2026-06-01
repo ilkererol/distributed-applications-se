@@ -1,0 +1,72 @@
+﻿@page
+@model PetShelter.Web.Pages.IndexModel
+@{
+    ViewData["Title"] = "Начало";
+}
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="row g-4 mt-2">
+        <div class="col-12">
+            <h3 class="mb-1">
+                <i class="bi bi-house-heart-fill text-primary"></i>
+                Добре дошъл, <strong>@User.Identity.Name</strong>!
+            </h3>
+            <p class="text-muted">Управлявай животните, осиновителите и заявленията от менюто вляво.</p>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/Animals" class="text-decoration-none">
+                <div class="card shadow-sm h-100 border-0 text-white bg-primary">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-piggy-bank" style="font-size: 3rem;"></i>
+                        <h5 class="mt-3 mb-1">Животни</h5>
+                        <p class="mb-0 opacity-75">Преглед и управление на животните в приюта</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/Adopters" class="text-decoration-none">
+                <div class="card shadow-sm h-100 border-0 text-white bg-success">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-people-fill" style="font-size: 3rem;"></i>
+                        <h5 class="mt-3 mb-1">Осиновители</h5>
+                        <p class="mb-0 opacity-75">Преглед и управление на осиновителите</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/Applications" class="text-decoration-none">
+                <div class="card shadow-sm h-100 border-0 text-white bg-warning">
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-file-earmark-text-fill" style="font-size: 3rem;"></i>
+                        <h5 class="mt-3 mb-1">Заявления</h5>
+                        <p class="mb-0 opacity-75">Преглед и управление на заявленията</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 text-center">
+            <i class="bi bi-house-heart-fill text-primary" style="font-size: 5rem;"></i>
+            <h2 class="mt-3">Добре дошъл в PetShelter</h2>
+            <p class="text-muted mb-4">Системата за управление на приют за животни.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/Auth/Login" class="btn btn-primary btn-lg">
+                    <i class="bi bi-box-arrow-in-right"></i> Вход
+                </a>
+                <a href="/Auth/Register" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-person-plus"></i> Регистрация
+                </a>
+            </div>
+        </div>
+    </div>
+}

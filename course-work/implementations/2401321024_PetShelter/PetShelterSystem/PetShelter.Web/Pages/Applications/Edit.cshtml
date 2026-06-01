@@ -1,0 +1,71 @@
+﻿@page "{id:int}"
+@model PetShelter.Web.Pages.Applications.EditModel
+@{
+    ViewData["Title"] = "Редактирай заявление";
+    ViewData["ActivePage"] = "Applications";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h4 class="mb-4">
+                    <i class="bi bi-pencil-square text-warning"></i> Редактирай заявление
+                </h4>
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Model.ErrorMessage</div>
+                }
+
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label class="form-label">Животно <span class="text-danger">*</span></label>
+                        <select class="form-select" asp-for="Input.AnimalId" required>
+                            <option value="">-- Избери животно --</option>
+                            @foreach (var animal in Model.Animals)
+                            {
+                                <option value="@animal.Id">
+                                    @(animal.Name ?? "Без име") — @animal.Species
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Осиновител <span class="text-danger">*</span></label>
+                        <select class="form-select" asp-for="Input.AdopterId" required>
+                            <option value="">-- Избери осиновител --</option>
+                            @foreach (var adopter in Model.Adopters)
+                            {
+                                <option value="@adopter.Id">
+                                    @adopter.FirstName @adopter.LastName
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Дата на заявление <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" asp-for="Input.ApplicationDate" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Такса за обработка (лв.) <span class="text-danger">*</span></label>
+                        <input type="number" step="0.01" class="form-control"
+                               asp-for="Input.ProcessingFee" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Бележки</label>
+                        <textarea class="form-control" asp-for="Input.Notes"
+                                  maxlength="500" rows="3"></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-save"></i> Запази
+                        </button>
+                        <a href="/Applications" class="btn btn-secondary">Отказ</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
